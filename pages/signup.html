@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To-Do App</title>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
+    <!-- ---------------- estilos compartilhados entre login e signup ---------------- -->
+    <link rel="stylesheet" href="../styles/acesso.css" />
+
+    <!-- ---------------------- -------------------- -->
+  </head>
+
+  <body>
+    <div class="left">
+      <img src="../assets/pessoa-signup.png" alt="" />
+    </div>
+    <div class="right">
+      <form>
+        <div class="form-header">
+          <p>To-Do App</p>
+        </div>
+        <h1>Cadastrar</h1>
+        <div>
+          <label for="userName"> Nome: </label>
+          <input
+            id="userName"
+            type="text"
+            required
+            minlength="4"
+            maxlength="20"
+          />
+          <small>Preencha o campo nome corretamente.</small>
+        </div>
+
+        <div>
+          <label for="userSurname"> Sobrenome: </label>
+          <input
+            id="userSurname"
+            type="text"
+            required
+            minlength="6"
+            maxlength="50"
+          />
+          <small>Preencha o campo sobrenome corretamente.</small>
+        </div>
+
+        <div>
+          <label for="userEmail"> Email: </label>
+          <input id="userEmail" type="email" required minlength="6" />
+          <small>Preencha o campo e-mail corretamente.</small>
+        </div>
+
+        <div class="youSee" >
+          <label  for="userPassword"> Senha: </label>
+          <img id="openPassword" src="../assets/hide.png">
+          <img id="closePassword" class="hide" src="../assets/view.png">
+          <input id="userPassword" type="password" required minlength="8" />
+          <small>Preencha o campo senha corretamente. </small>
+          <small>Preencha o campo senha corretamente. </small>
+          <small> • Mínimo de oito caracteres. </small>
+          <small> • Letra maiúscula</small>
+          <small> • Letra minúscula </small>
+          <small> • Números</small>
+        </div>
+        <div  class="youSee">
+          <label for="confirmPassword"> Repetir senha: </label>
+          <img id="confirmOpen" src="../assets/hide.png">
+          <img id="confirmClose" class="hide" src="../assets/view.png">
+          <input id="confirmPassword" type="password" required minlength="8" />
+          <small>O valor precisa ser igual ao campo senha.</small>
+        </div>
+
+        <button id="bntRegister" disabled>Criar conta</button>
+      </form>
+      <div class="ingressar">
+        <a href="../index.html">Já possui conta? Acesse aqui</a>
+      </div>
+    </div>
+
+    <script src="../scripts/signup.js" type="module"></script>
+    <script src="../scripts/auth.js" type="module"></script>
+  </body>
+</html>

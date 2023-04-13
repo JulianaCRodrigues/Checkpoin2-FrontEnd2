@@ -1,0 +1,89 @@
+EXPLICAÇÕES E REQUISITOS DO CHECK 2
+
+
+API
+A documentação da API pode ser acessada pelo seguinte link: https://todo-api.ctd.academy/
+A URL Base para a API é: https://todo-api.ctd.academy/v1/
+Todos end-points que existem nela só são acessíveis caso a Requisição possua os Headers "Accept" e "Content-Type", ambos com o valor "application/json".
+Já os end-points privados irão precisar de um Header adicional (além dos outros dois citados anteriormente) chamado "Authorization", que terá como valor o JWT obtido do resultado de sucesso na Request de Login .
+
+
+CADASTRO
+Será a tela que o usuário irá cadastrar uma nova conta na Aplicação, ela possuí um formulário que ao ser submetido será feita uma comunicação da API.
+
+- Formuláruo
+Nome: É obrigatório, precisa ter no mínimo 4 caracteres e no máximo 20.
+Sobrenome: É obrigatório e precisa ter no mínimo 6 caracteres e no máximo 50.
+Email: É obrigatório, precisa ter no mínimo 6 caracteres e precisa ser um e-mail válido.
+Senha: É obrigatório e precisa ter no mínimo 8 caracteres.
+Repetir Senha: Precisa ser exatamente a mesma coisa digitada no campo Senha.
+Botão: Irá começar desabilitado e será habilitado assim que o usuário preencher todos os campos corretamente.
+
+Fluxo
+- Usuário preenche o formulário corretamente
+- Clicka no botão de Cadastro
+- Aplicação dispara uma request para a API com os dados que ele preencher
+- Caso esteja tudo certo a API irá retornar sucesso
+- Aplicação redireciona o usuário para o Login
+
+
+LOGIN
+Será a primeira tela que o usuário irá ver da Aplicação, ela possuí um formulário que ao ser submetido será feita uma comunicação da API.
+
+- Formuláruo
+Email: É obrigatório, precisa ter no mínimo 6 caracteres e precisa ser um e-mail válido.
+Senha: É obrigatório e precisa ter no mínimo 8 caracteres.
+Botão: Irá começar desabilitado e será habilitado assim que o usuário preencher todos os campos corretamente.
+
+Fluxo
+- Usuário preenche o formulário corretamente
+- Clicka no botão de Login
+- Aplicação dispara uma request para a API com os dados que ele preencher
+- Caso esteja tudo certo a API irá retornar o Token de autorização que é chamado de JWT
+- Após obter esse JWT a aplicação deverá armazenar o JWT no localStorage e redirecionar o Usuário para a pagina de Tarefas
+
+TAREFAS - PARTE INTERNA DA APLICAÇÃO(PARTE PRIVADA)
+Será a tela que o usuário irá ver após realizar o login na Aplicação, ela possuí: Header, Campo para o Cadastro de Novas Tarefas, Lista de Tarefas Pendentes e Lista de Tarefas Finalizadas.
+
+Fluxo
+- Usuário acessa a área privada
+- É verificado se ele possuí o Token de Autorização no LocalStorage
+- Caso ele não possua o usuário será redirecionado para o login novamente e o LocalStorage será limpado
+- Caso possua será obtido os dados do Usuario
+- Caso a requisição de obter os dados do Usuario falhe com um 401, o usuário deverá ser sirecionado para o Login e o LocalStorage será limpado
+- Caso a requisição de obter os dados do Usuario não apresente nenhum erro, você terá que pegar os dados obtidos pela request(pode ser apenas o nome) e exibi-los no header.
+- Após isso será necessário obter todas as tarefas do Usuário para exibir nas listagens(Lista de Tarefas Pendentes e Lista de Tarefas Finalizadas, você saberá se uma tarefa está pendente ou não pelo valor da chave "completed" que irá ser retornado no get das tasks, caso o completed seja True a tarefa está finalizada, caso False a tarefa ainda está pendente), após isso você terá que separar os dados em um array de Tarefas Pendentes e outro de Tarefas Finalizadas
+
+- Header
+Irá conter o nome do usuário e botão de logout
+
+- Botão de Logout
+Irá remover os dados salvos no Local Storage e redirecionar o usuário para o Login
+
+- Tarefas Pendentes
+Listagem que será carregada os itens do array de Tarefas Pendentes
+
+Fluxo
+- É montada a listagem de tarefas pendentes baseado no Filtro que você fez no array de tarefas gerais
+- Caso o usuário clique no botão ao lado das tarefas, será necessário realizar uma atualização para que a tarefa que teve o botão clickado seja alterada para a lista de baixo(e também será disparada uma request de PUT para a API atualiza-la no banco de dados também), essa atualização irá mudar o valor da chave "completed" da Task de True para False
+- Caso uma nova tarefa seja Cadastrada na API ela deverá aparecer nesta lista assim que a requisição retornar sucesso
+
+- Tarefas Finalizadas
+Listagem que será carregada os itens do array de Tarefas Finalizadas
+
+Fluxo
+- É montada a listagem de tarefas finalizadas baseado no Filtro que você fez no array de tarefas gerais
+- Caso o usuário clique no botão ao lado das tarefas, será necessário realizar uma atualização para que a tarefa que teve o botão clickado seja excluída(será necessário realizar uma request de DELETE para a API), assim que a API retornar sucesso para a exclusão dessa tarefa, você deverá remove-la da lista de baixo
+
+- Campo de Cadastrao
+Input onde iremos adicionar o nome na tarefa e posteriormente clickar no botão ao lado para salvar esta tarefa
+
+- Campo
+- Requerido e precisa ter no mínimo 4 caracteres
+- Deve exibir erro caso o usuário não o preencha corretamente
+
+Fluxo
+- Usuário digita o nome da tarefa
+- Clicka no botão para adiciona-la
+- É feita uma request para a API onde a tarefa será criada
+- Assim que a requisição da tarefa retornar sucesso você deverá adicionar a tarefa recem criada à lista de Tarefas Pendentes
